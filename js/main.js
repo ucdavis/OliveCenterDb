@@ -1,10 +1,7 @@
-MyApp = {};
+﻿MyApp = {};
 MyApp.spreadsheetData = [];
 MyApp.headerData = [
-    { "sTitle": "Researcher Name" }, { "sTitle": "Campus/ College" }, 
-    { "sTitle": "Department/ Program"}, { "sTitle": "Researcher Title"}, 
-    { "sTitle": "Website"}, { "sTitle": "Email"}, 
-    { "sTitle": "Research Area"}
+    { "sTitle": "Title" }, { "sTitle": "xyz" }, { "sTitle": "Year" }
 ];
 
 MyApp.ResearchAreaCategories = { 
@@ -21,10 +18,21 @@ String.prototype.trunc = function (n) {
 };
 
 $(function () {
-    var url = "https://spreadsheets.google.com/feeds/list/0AhTxmYCYi3fpdHI5RnliaG1yMGZxeEVTYnJXc1Fxb3c/1/public/values?alt=json-in-script&callback=?";
+    var url = "https://spreadsheets.google.com/feeds/list/0AhTxmYCYi3fpdEJDZnBsb2FnNTVucGdRb1pHRExyUmc/1/public/values?alt=json-in-script&callback=?";
     $.getJSON(url, {}, function (data) {
         $.each(data.feed.entry, function (key, val) {
-            var college = val.gsx$campuscollege.$t;
+            var title = val.gsx$title.$t;
+            var year = val.gsx$year.$t;
+
+            MyApp.spreadsheetData.push(
+                [
+                    title, "xyz", year
+                ]);
+
+            //val.gsx$abstract.$t;
+
+            /*
+		    var college = val.gsx$campuscollege.$t;
             var researchTitle = val.gsx$researchertitle.$t;
             var department = val.gsx$departmentprogram.$t;
             var website = "<a target='_blank' href='" + val.gsx$website.$t + "'>" + val.gsx$website.$t.trunc(25) + "</a>";
@@ -65,14 +73,20 @@ $(function () {
 
                 researchAreaCollection.values.sort();
             });
+            */
         });
 
+        console.log(MyApp.spreadsheetData);
+        
+        createDataTable();
+
+        /*
         MyApp.Colleges.sort();
         MyApp.Departments.sort();
 
-        createDataTable();
         addFilters();
         researcherPopup();
+        */
     });
 })
 
@@ -238,10 +252,10 @@ function createDataTable() {
     });
 
     MyApp.oTable = $("#spreadsheet").dataTable({
-        "aoColumnDefs": [
-            { "sType": "link-content", "aTargets": [ 0, 4, 5 ] },
-            { "bVisible": false, "aTargets": [ -1 ] } //hide the keywords column for now (the last column, hence -1)
-        ],
+        //"aoColumnDefs": [
+        //    { "sType": "link-content", "aTargets": [ 0, 4, 5 ] },
+        //    { "bVisible": false, "aTargets": [ -1 ] } //hide the keywords column for now (the last column, hence -1)
+        //],
         "iDisplayLength": 20,
         "bLengthChange": false,
         "aaData": MyApp.spreadsheetData,
