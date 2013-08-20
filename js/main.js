@@ -146,10 +146,10 @@ function createDataTable() {
     });
 
     MyApp.oTable = $("#spreadsheet").dataTable({
-        //"aoColumnDefs": [
-        //    { "sType": "link-content", "aTargets": [ 0, 4, 5 ] },
-        //    { "bVisible": false, "aTargets": [ -1 ] } //hide the keywords column for now (the last column, hence -1)
-        //],
+        "aoColumnDefs": [
+            //{ "sType": "link-content", "aTargets": [ 0, 4, 5 ] },
+            { "bVisible": false, "aTargets": [ -1 ] } //hide the keywords column for now (the last column, hence -1)
+        ],
         "iDisplayLength": 20,
         "bLengthChange": false,
         "aaData": MyApp.spreadsheetData,
