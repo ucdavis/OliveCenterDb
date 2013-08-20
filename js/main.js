@@ -1,7 +1,7 @@
 ﻿MyApp = {};
 MyApp.spreadsheetData = [];
 MyApp.headerData = [
-    { "sTitle": "Title" }, { "sTitle": "xyz" }, { "sTitle": "Year" }
+    { "sTitle": "Title" }, { "sTitle": "Authors" }, { "sTitle": "Source" }, { "sTitle": "Year" }
 ];
 
 MyApp.ResearchAreaCategories = { 
@@ -22,11 +22,13 @@ $(function () {
     $.getJSON(url, {}, function (data) {
         $.each(data.feed.entry, function (key, val) {
             var title = val.gsx$title.$t;
+            var authors = val.gsx$authors.$t;
+            var source = val.gsx$source.$t;
             var year = val.gsx$year.$t;
 
             MyApp.spreadsheetData.push(
                 [
-                    title, "xyz", year
+                    title, authors, source, year
                 ]);
 
             //val.gsx$abstract.$t;
