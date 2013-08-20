@@ -23,12 +23,9 @@ $(function () {
 
             MyApp.spreadsheetData.push(
                 [
-                    title, authors, source, year, keyword
+                    GenerateTitleColumn(val), authors, source, year, keyword
                 ]);
 
-            //var website = "<a target='_blank' href='" + val.gsx$website.$t + "'>" + val.gsx$website.$t.trunc(25) + "</a>";
-            //var email = "<a href='mailto:" + val["gsx$e-mail"].$t + "'>" + val["gsx$e-mail"].$t + "</a>";
-            
             if ($.inArray(keyword, MyApp.keywords) === -1 && keyword.length !== 0) {
                 MyApp.keywords.push(keyword);
             }
@@ -38,12 +35,24 @@ $(function () {
 
         createDataTable();
         addFilters();
-
-        /*
-        researcherPopup();
-        */
+        abstractPopup();
     });
 })
+
+function GenerateTitleColumn(entry) { //entry value from spreadsheet
+    var title = entry.gsx$title.$t;
+    var abstract = entry.gsx$abstract.$t;
+    var link = entry.gsx$linkstowhat.$t;
+
+    return "<a href='" + link + "' class='abstract-popover' data-toggle='popover' data-content='" + abstract + "' data-original-title='Abstract'>" + title + "</a>";
+}
+
+function abstractPopup() {
+    $("#spreadsheet").popover({
+        selector: '.abstract-popover',
+        trigger: 'hover'
+    });
+}
 
 function addFilters(){
     var $filter = $("#filter_elements");
@@ -85,28 +94,6 @@ function addFilters(){
     });
 }
 
-/*
-function researcherPopup(){
-    $("#spreadsheet").popover({ 
-        selector: '.researcher-popover',
-        trigger: 'hover'
-    });
-}
-
-function GenerateResearcherColumn(val){ //entry value from spreadsheet
-    var name = val.gsx$researchername.$t;
-        
-    //var website = "<a target='_blank' href='" + val.gsx$website.$t + "'>" + val.gsx$website.$t + "</a>";
-    //var email = "<a href='mailto:" + val["gsx$e-mail"].$t + "'>" + val["gsx$e-mail"].$t + "</a>";
-    var research = val.gsx$research.$t;
-
-    var content = research; //could expand content later
-    var researcher = "<a href='#' class='researcher-popover' data-toggle='popover' data-content='" + research + "' data-original-title='" + name + "'>" + name + "</a>";
-        
-    return researcher;
-}
-*/
-
 function displayCurrentFilters() {
     var $filterAlert = $("#filters");
     
@@ -147,7 +134,7 @@ function createDataTable() {
 
     MyApp.oTable = $("#spreadsheet").dataTable({
         "aoColumnDefs": [
-            //{ "sType": "link-content", "aTargets": [ 0, 4, 5 ] },
+            { "sType": "link-content", "aTargets": [ 0 ] },
             { "bVisible": false, "aTargets": [ -1 ] } //hide the keywords column for now (the last column, hence -1)
         ],
         "iDisplayLength": 20,
