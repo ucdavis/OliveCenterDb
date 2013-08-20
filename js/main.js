@@ -1,17 +1,9 @@
 ﻿MyApp = {};
 MyApp.spreadsheetData = [];
+MyApp.keywords = [];
 MyApp.headerData = [
     { "sTitle": "Title" }, { "sTitle": "Authors" }, { "sTitle": "Source" }, { "sTitle": "Year" }, { "sTitle": "keywords" }
 ];
-
-MyApp.ResearchAreaCategories = { 
-    "researchareapopulations": { name: "Populations defined by…", values: [] }, 
-    "researcharealifephase": { name: "Life Phase", values: [] }, 
-    "researchareaother": { name: "Other", values: [] } 
-};
-
-MyApp.filterIndexes = { "colleges": 1, "departments": 2, "researchtitles": 3, "researcharea" : 6 };
-MyApp.Colleges = [], MyApp.ResearchTitles = [], MyApp.Departments = [];
 
 String.prototype.trunc = function (n) {
     return this.substr(0, n - 1) + (this.length > n ? '&hellip;' : '');
@@ -25,174 +17,75 @@ $(function () {
             var authors = val.gsx$authors.$t;
             var source = val.gsx$source.$t;
             var year = val.gsx$year.$t;
-            var keywords = val.gsx$keywords.$t;
+            var keyword = val.gsx$keywords.$t;
             var abstract = val.gsx$abstract.$t;
             var link = val.gsx$linkstowhat.$t;
 
             MyApp.spreadsheetData.push(
                 [
-                    title, authors, source, year, keywords
+                    title, authors, source, year, keyword
                 ]);
 
-            //val.gsx$abstract.$t;
-
-            /*
-		    var college = val.gsx$campuscollege.$t;
-            var researchTitle = val.gsx$researchertitle.$t;
-            var department = val.gsx$departmentprogram.$t;
-            var website = "<a target='_blank' href='" + val.gsx$website.$t + "'>" + val.gsx$website.$t.trunc(25) + "</a>";
-            var email = "<a href='mailto:" + val["gsx$e-mail"].$t + "'>" + val["gsx$e-mail"].$t + "</a>";
-
-            var allResearchAreas = val.gsx$researchareapopulations.$t + ';' + val.gsx$researcharealifephase.$t + ';' + val.gsx$researchareaother.$t;
-
-            MyApp.spreadsheetData.push(
-                [
-                    GenerateResearcherColumn(val), college,
-                    department, researchTitle,
-                    website, email,
-                    allResearchAreas
-                ]);
-
-            if ($.inArray(college, MyApp.Colleges) === -1) {
-                MyApp.Colleges.push(college);
+            //var website = "<a target='_blank' href='" + val.gsx$website.$t + "'>" + val.gsx$website.$t.trunc(25) + "</a>";
+            //var email = "<a href='mailto:" + val["gsx$e-mail"].$t + "'>" + val["gsx$e-mail"].$t + "</a>";
+            
+            if ($.inArray(keyword, MyApp.keywords) === -1 && keyword.length !== 0) {
+                MyApp.keywords.push(keyword);
             }
-
-            if ($.inArray(researchTitle, MyApp.ResearchTitles) === -1 && researchTitle.length !== 0) {
-                MyApp.ResearchTitles.push(researchTitle);
-            }
-
-            if ($.inArray(department, MyApp.Departments) === -1 && department.length !== 0) {
-                MyApp.Departments.push(department);
-            }
-
-            $.each(MyApp.ResearchAreaCategories, function (researchAreaName, researchAreaCollection) {
-                var researchArea = val["gsx$" + researchAreaName].$t;
-
-                //Add the keywords, which are semi-colon separated. First trim them and then replace the CRLF, then split.
-                $.each(researchArea.trim().replace(/^[\r\n]+|\.|[\r\n]+$/g, "").split(';'), function (key, val) {
-                    val = val.trim(); //need to trim the semi-colon separated values after split
-                    if ($.inArray(val, researchAreaCollection.values) === -1 && val.length !== 0) {
-                        researchAreaCollection.values.push(val);
-                    }
-                });
-
-                researchAreaCollection.values.sort();
-            });
-            */
         });
 
-        console.log(MyApp.spreadsheetData);
-        
+        MyApp.keywords.sort();
+
         createDataTable();
+        addFilters();
 
         /*
-        MyApp.Colleges.sort();
-        MyApp.Departments.sort();
-
-        addFilters();
         researcherPopup();
         */
     });
 })
 
-function hideUnavailableDepartments(){
-    var fileredData = MyApp.oTable._('tr', {"filter":"applied"});
-
-    //Get departments available after the filters are set
-    MyApp.Departments = [];
-    $.each(fileredData, function (key, val) {
-        var department = val[MyApp.filterIndexes["departments"]];
-
-        if ($.inArray(department, MyApp.Departments) === -1 && department.length !== 0) {
-                MyApp.Departments.push(department);
-        }
-    });
-
-    $(":checkbox", "#departments").each(function () {
-        //if a checkbox isn't in the list of available departments, hide it
-        if ($.inArray(this.name, MyApp.Departments) === -1) {
-            $(this).parent().css("display", "none");
-        } else {
-            $(this).parent().css("display", "block");
-        }
-    });
-}
-
 function addFilters(){
-    var $colleges = $("#colleges");
+    var $filter = $("#filter_elements");
     
-    $.each(MyApp.Colleges, function (key, val) {
-        $colleges.append('<li><label><input type="checkbox" name="' + val + '"> ' + val + '</label></li>');
+    $.each(MyApp.keywords, function (key, val) {
+        $filter.append('<li><label><input type="checkbox" name="' + val + '"> ' + val + '</label></li>');
     });
-
-    var $departments = $("#departments");
-    
-    $.each(MyApp.Departments, function (key, val) {
-        $departments.append('<li><label><input type="checkbox" name="' + val + '"> ' + val + '</label></li>');
-    });
-
-    //Create a select box with all research areas by category
-    var $researcharea = $("#researcharea");
-
-    var researchSelect = "<select id='researchfilter'><option value=''>--No Research Area Filter--</option>";
-
-    $.each(MyApp.ResearchAreaCategories, function (category, researchAreaCollection) {
-        researchSelect += "<optgroup label='" + researchAreaCollection.name + "'>";
-        $.each(researchAreaCollection.values, function (k, researchArea) {
-            researchSelect += "<option>" + researchArea + "</option>";
-        });
-        researchSelect += "</optgroup>";
-    });
-
-    researchSelect += "</select>";
-
-    $researcharea.append(researchSelect);
-
-    $("#researcharea").on("change", "#researchfilter", function (e) {
-        var selected = $("#researchfilter").val();
-
-        //can match anywhere in keyword list, replace open/close parens with leading escape slash
-        var filterRegex = "(" + selected.replace("(", "\\(").replace(")", "\\)") + ")";
-
-        MyApp.oTable.fnFilter(filterRegex, MyApp.filterIndexes["researcharea"], true, false);
-        hideUnavailableDepartments();
-        displayCurrentFilters();
-    });
-
-    $(".filterrow").on("click", "ul.filterlist", function (e) {
-        var filterRegex = "";
-        var filterName = this.id;
-        var filterIndex = MyApp.filterIndexes[filterName];
         
+    $filter.on("change", function (e) {
+        e.preventDefault();
+        var selected = this.name;
+
+        var filterRegex = "";
         var filters = [];
-        $("input", this).each(function (key, val) {
+
+        $("input:checkbox", this).each(function (key, val) {
             if (val.checked) {
                 if (filterRegex.length !== 0) {
                     filterRegex += "|";
                 }
 
-                filterRegex += "(^" + val.name + "$)"; //Use the hat and dollar to require an exact match                
+                filterRegex += "(^" + val.name + "$)"; //Use the hat and dollar to require an exact match
             }
         });
 
-        MyApp.oTable.fnFilter(filterRegex, filterIndex, true, false);
-        hideUnavailableDepartments();
+        console.log(filterRegex);
+        MyApp.oTable.fnFilter(filterRegex, 4, true, false);
         displayCurrentFilters();
     });
 
     $("#clearfilters").click(function (e) {
         e.preventDefault();
 
-        $(":checkbox", "ul.filterlist").each(function () {
+        $(":checkbox", $filter).each(function () {
             this.checked = false;
         });
 
-        $("#researchfilter").val(0);
-
-        $("ul.filterlist").click();
+        $filter.change();
     });
 }
 
+/*
 function researcherPopup(){
     $("#spreadsheet").popover({ 
         selector: '.researcher-popover',
@@ -200,7 +93,7 @@ function researcherPopup(){
     });
 }
 
-function GenerateResearcherColumn(val /* entry value from spreadsheet */){
+function GenerateResearcherColumn(val){ //entry value from spreadsheet
     var name = val.gsx$researchername.$t;
         
     //var website = "<a target='_blank' href='" + val.gsx$website.$t + "'>" + val.gsx$website.$t + "</a>";
@@ -212,32 +105,28 @@ function GenerateResearcherColumn(val /* entry value from spreadsheet */){
         
     return researcher;
 }
+*/
 
-function displayCurrentFilters(){
+function displayCurrentFilters() {
     var $filterAlert = $("#filters");
-    var researchFilter = $("#researchfilter").val();
+    
     var filters = "";
-
-    if (researchFilter){
-        filters += "<strong>" + researchFilter + "</strong>";
-    }
-
-    $(":checked", "ul.filterlist").each(function () {
-        if (filters.length !== 0){
+    
+    $(":checked", "#filter_elements").each(function () {
+        if (filters.length !== 0) {
             filters += " + "
         }
-        filters += "<strong>" + this.name + "</strong>";        
+        filters += "<strong>" + this.name + "</strong>";
     });
 
-    if (filters.length !== 0){     
+    if (filters.length !== 0) {
         var alert = $("<div class='alert alert-info'><strong>Filters</strong><p>You are filtering on " + filters + "</p></div>")
 
-        $filterAlert.html(alert);   
-    } else{
-        $filterAlert.html(null);  
+        $filterAlert.html(alert);
+        $filterAlert[0].scrollIntoView(true);
+    } else {
+        $filterAlert.html(null);
     }
-
-    $filterAlert[0].scrollIntoView( true );
 }
 
 function createDataTable() {
