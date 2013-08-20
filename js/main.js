@@ -1,7 +1,7 @@
 ﻿MyApp = {};
 MyApp.spreadsheetData = [];
 MyApp.headerData = [
-    { "sTitle": "Title" }, { "sTitle": "Authors" }, { "sTitle": "Source" }, { "sTitle": "Year" }
+    { "sTitle": "Title" }, { "sTitle": "Authors" }, { "sTitle": "Source" }, { "sTitle": "Year" }, { "sTitle": "keywords" }
 ];
 
 MyApp.ResearchAreaCategories = { 
@@ -25,10 +25,13 @@ $(function () {
             var authors = val.gsx$authors.$t;
             var source = val.gsx$source.$t;
             var year = val.gsx$year.$t;
+            var keywords = val.gsx$keywords.$t;
+            var abstract = val.gsx$abstract.$t;
+            var link = val.gsx$linkstowhat.$t;
 
             MyApp.spreadsheetData.push(
                 [
-                    title, authors, source, year
+                    title, authors, source, year, keywords
                 ]);
 
             //val.gsx$abstract.$t;
