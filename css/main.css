@@ -1,36 +1,68 @@
-
-
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
 
 .discreet {
-	text-transform: uppercase;
-	font-size: 0.75em;
-	line-height: 0.5em;
-	letter-spacing: .2px;
-	font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  line-height: 0.5em;
+  letter-spacing: 0.2px;
+  font-weight: bold;
 }
-
 
 a.project-popover {
-	vertical-align: top;
+  vertical-align: top;
 }
 a.project-popover span {
-	line-height: 1em; padding: 0.5em 0; display: block;
+  line-height: 1em;
+  padding: 0.5em 0;
+  display: block;
 }
 
-.hero-unit {padding: 0px; padding-top: 20px; background: transparent;}
-.hero-unit h1 {display: inline-block; padding-right: 0.25em;}
-.hero-unit p {display: inline-block;}
+.hero-unit {
+  padding: 0px;
+  padding-top: 20px;
+  background: transparent;
+}
+.hero-unit h1 {
+  display: inline-block;
+  padding-right: 0.25em;
+}
+.hero-unit p {
+  display: inline-block;
+}
 
-.city {font-size: 0.9em;}
+.city {
+  font-size: 0.9em;
+}
 
+.btn-info {
+  white-space: nowrap;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+  box-shadow: 0 -3px 0 rgba(0, 0, 0, 0.15) inset, 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  background: #002855 !important;
+  border-radius: 2px;
+  font-size: 1.6rem;
+  letter-spacing: 0.025em;
+  color: #fff !important;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  border: none;
+}
+table.dataTable tr.odd td.sorting_1 {
+  background-color: #ccd4e0 !important;
+}
 
+table.dataTable tr.odd td {
+  background-color: #bcc7d6 !important;
+}
 
-
-
-
-
-
-
+table.dataTable tr.even td.sorting_1 {
+  background-color: #fefefe !important;
+}
+table.dataTable tr.even td {
+  background-color: #f1f1f1 !important;
+}
