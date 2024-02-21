@@ -4,13 +4,27 @@
    Author's custom styles
    ========================================================================== */
 
+.discreet {
+	text-transform: uppercase;
+	font-size: 0.75em;
+	line-height: 0.5em;
+	letter-spacing: .2px;
+	font-weight: bold;
+}
 
 
+a.project-popover {
+	vertical-align: top;
+}
+a.project-popover span {
+	line-height: 1em; padding: 0.5em 0; display: block;
+}
 
+.hero-unit {padding: 0px; padding-top: 20px; background: transparent;}
+.hero-unit h1 {display: inline-block; padding-right: 0.25em;}
+.hero-unit p {display: inline-block;}
 
-
-
-
+.city {font-size: 0.9em;}
 
 
 
