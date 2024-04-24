@@ -46,20 +46,28 @@ a:hover {
   transition: all 0.15s ease;
 }
 table.dataTable tr.odd td.sorting_1 {
-  background-color: #ccd4e0 !important;
+  background-color: #fff !important;
 }
 table.dataTable tr.odd td {
-  background-color: #bcc7d6 !important;
+  background-color: #fff !important;
 }
 
 table.dataTable tr.even td.sorting_1 {
-  background-color: #fefefe !important;
+  background-color: #fff !important;
 }
 table.dataTable tr.even td {
-  background-color: #f1f1f1 !important;
+  background-color: #fff !important;
 }
 
+table thead tr th {
+  font-size: 1.4rem;
+  padding: 0.5rem !important;
+  font-weight: bold !important;
+  border-bottom: 1px solid #6fcfeb !important;
+  text-align: left;
+}
 table tr td {
   font-size: 1.2rem;
-  padding: 16px 8px !important;
+  padding: 1rem !important;
+  border-top: 1px solid #6fcfeb !important;
 }
