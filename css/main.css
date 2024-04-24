@@ -19,43 +19,35 @@ a.project-popover span {
   display: block;
 }
 
-.hero-unit {
-  padding: 0px;
-  padding-top: 20px;
-  background: transparent;
+.filterrow {
+  margin-top: 40px;
 }
-.hero-unit h1 {
-  display: inline-block;
-  padding-right: 0.25em;
+a {
+  text-decoration: none;
+  color: #022851;
 }
-.hero-unit p {
-  display: inline-block;
+a:hover {
+  color: #1d4776;
+  text-decoration: none;
 }
-
-.city {
-  font-size: 0.9em;
-}
-
 .btn-info {
   white-space: nowrap;
   display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 20px;
-  box-shadow: 0 -3px 0 rgba(0, 0, 0, 0.15) inset, 0 1px 3px rgba(0, 0, 0, 0.08) !important;
-  background: #002855 !important;
+  padding: 8px 16px;
+  background: #ffbf00 !important;
   border-radius: 2px;
-  font-size: 1.6rem;
+  font-size: 1rem;
+  font-weight: 800;
+  border: none;
+  text-shadow: none;
   letter-spacing: 0.025em;
-  color: #fff !important;
+  color: #022851 !important;
   text-decoration: none;
   transition: all 0.15s ease;
-  border: none;
 }
 table.dataTable tr.odd td.sorting_1 {
   background-color: #ccd4e0 !important;
 }
-
 table.dataTable tr.odd td {
   background-color: #bcc7d6 !important;
 }
@@ -65,4 +57,9 @@ table.dataTable tr.even td.sorting_1 {
 }
 table.dataTable tr.even td {
   background-color: #f1f1f1 !important;
+}
+
+table tr td {
+  font-size: 1.2rem;
+  padding: 16px 8px !important;
 }
